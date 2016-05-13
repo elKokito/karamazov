@@ -31,7 +31,8 @@ def add_torrent():
     print('received request to add torrent')
     print(req)
     if 'magnet' in req:
-        cmd = 'transmission-remote -a \'' + req['magnet'] + '\''
+        cmd = 'transmission-remote -a ' + req['magnet']
+        print(cmd.split())
         subprocess.call(cmd.split())
         return '', 200
     else:
