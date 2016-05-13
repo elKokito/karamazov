@@ -54,4 +54,4 @@ def status():
 
 if __name__ == "__main__":
     print("app started on port 8888")
-    app.run(port=8888, debug=True)
+    app.run(host='0.0.0.0', port=8888, debug=True)
