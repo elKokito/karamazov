@@ -33,7 +33,6 @@ def add_torrent():
     if 'magnet' in req:
         cmd = 'transmission-remote -a \'' + req['magnet'] + '\''
         subprocess.call(cmd.split())
-        # print(cmd.split())
         return '', 200
     else:
         return 'no magnet send', 400
@@ -41,11 +40,16 @@ def add_torrent():
 @app.route('/remove_torrent', methods=['POST'])
 def remove_torrent():
     # TODO
-    return 'todo'
+    req = request.json
+    if 'target' in req:
+        pass
+    return 'no target specified', 400
 
 @app.route('/status')
 def status():
     # TODO
+    cmd = 'transmission-remote -l'
+    status = subprocess.call(cmd.split())
     return 'todo'
 
 if __name__ == "__main__":
