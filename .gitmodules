@@ -1,0 +1,3 @@
+[submodule "torrentClient"]
+	path = torrentClient
+	url = https://github.com/elKokito/torrentClient.git
