@@ -12,7 +12,7 @@ class TransmissionWrapper:
         raw_info = subprocess.check_output(self.STATUS_CMD.split())
         info = raw_info.decode().splitlines()
         info.pop(0)
-        info.pop(1)
+        info.pop(-1)
         info_list = []
         for entry in info:
             entry_info = entry.split()
