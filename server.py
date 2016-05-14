@@ -45,7 +45,7 @@ def remove_torrent():
 @app.route('/torrents_status')
 def status():
     res = transmisionWrapper.torrents_status()
-    return res, 200
+    return json.dumps(res), 200
 
 if __name__ == "__main__":
     print("app started on port 8888")
