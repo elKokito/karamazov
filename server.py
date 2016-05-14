@@ -1,12 +1,11 @@
-from torrentClient.torrents_webscraper import TorrentGetter
-import flask
-from flask import request
+from flask import request, Flask
 import json
-import subprocess
+from torrentClient.torrents_webscraper import TorrentGetter
+from transmission_parser import TransmissionWrapper
 
 app = flask.Flask(__name__)
 torrentGetter = TorrentGetter()
-
+transmisionWrapper = TransmissionWrapper()
 
 @app.route('/all_torrents')
 def torrent():
@@ -29,12 +28,9 @@ def series():
 def add_torrent():
     req = request.json
     print('received request to add torrent')
-    print(req)
     if 'magnet' in req:
-        cmd = 'transmission-remote -a ' + req['magnet']
-        print(cmd.split())
-        subprocess.call(cmd.split())
-        return '', 200
+        res = transmisionWrapper.add_torrent(req['magnet'])
+        return res, 200
     else:
         return 'no magnet send', 400
 
@@ -43,15 +39,15 @@ def remove_torrent():
     # TODO
     req = request.json
     if 'target' in req:
-        pass
+        res = transmisionWrapper.remove_torrent(req['target'])
+        return res, 200
     return 'no target specified', 400
 
-@app.route('/status')
+@app.route('/torrents_status')
 def status():
     # TODO
-    cmd = 'transmission-remote -l'
-    status = subprocess.call(cmd.split())
-    return 'todo'
+    res = transmisionWrapper.torrents_status()
+    return res, 200
 
 if __name__ == "__main__":
     print("app started on port 8888")
