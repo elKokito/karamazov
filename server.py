@@ -3,7 +3,7 @@ import json
 from torrentClient.torrents_webscraper import TorrentGetter
 from transmission_parser import TransmissionWrapper
 
-app = flask.Flask(__name__)
+app = Flask(__name__)
 torrentGetter = TorrentGetter()
 transmisionWrapper = TransmissionWrapper()
 
@@ -36,7 +36,6 @@ def add_torrent():
 
 @app.route('/remove_torrent', methods=['POST'])
 def remove_torrent():
-    # TODO
     req = request.json
     if 'target' in req:
         res = transmisionWrapper.remove_torrent(req['target'])
@@ -45,7 +44,6 @@ def remove_torrent():
 
 @app.route('/torrents_status')
 def status():
-    # TODO
     res = transmisionWrapper.torrents_status()
     return res, 200
 
