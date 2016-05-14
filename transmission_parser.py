@@ -9,7 +9,7 @@ class TransmissionWrapper:
         self.REMOVE_TORRENT = 'transmission-remote --remove -t'
 
     def torrents_status(self):
-        raw_info = subprocess.call(self.STATUS_CMD.split())
+        raw_info = subprocess.check_output(self.STATUS_CMD.split())
         info = raw_info.splitlines()
         info.pop(0)
         info.pop(1)
@@ -31,10 +31,10 @@ class TransmissionWrapper:
 
     def add_torrent(self, magnet):
         cmd = self.ADD_TORRENT + ' ' + magnet
-        res = subprocess.call(cmd.split())
+        res = subprocess.check_output(cmd.split())
         return res
 
     def remove_torrent(self, target):
         cmd = self.REMOVE_TORRENT + ' ' + target
-        res = subprocess.call(cmd.split())
+        res = subprocess.check_output(cmd.split())
         return res
