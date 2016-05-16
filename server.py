@@ -1,9 +1,11 @@
 from flask import request, Flask
+from flask.ext.cors import CORS
 import json
 from torrentClient.torrents_webscraper import TorrentGetter
 from transmission_parser import TransmissionWrapper
 
 app = Flask(__name__)
+CORS(app)
 torrentGetter = TorrentGetter()
 transmisionWrapper = TransmissionWrapper()
 
@@ -26,11 +28,13 @@ def series():
 
 @app.route('/add_torrent', methods=['POST'])
 def add_torrent():
-    req = request.json
+    print(request.data)
+    req = json.loads(request.data.decode())
+    print(req)
     print('received request to add torrent')
     if 'magnet' in req:
         res = transmisionWrapper.add_torrent(req['magnet'])
-        return res, 200
+        return json.dumps({'response': res.decode()}), 200
     else:
         return 'no magnet send', 400
 
@@ -46,6 +50,14 @@ def remove_torrent():
 def status():
     res = transmisionWrapper.torrents_status()
     return json.dumps(res), 200
+
+@app.route('/search', methods=['POST'])
+def search():
+    req = request.json
+    if 'query' in req:
+        res = transmisionWrapper.search(req['query'])
+        return res, 200
+    return 'no query specified', 400
 
 if __name__ == "__main__":
     print("app started on port 8888")

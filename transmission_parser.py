@@ -22,16 +22,16 @@ class TransmissionWrapper:
                 'pourcentage': entry_info[1],
                 'size': entry_info[2],
                 'size_unit': entry_info[3],
-                'status': entry_info[4],
-                'seeding_speed': entry_info[5],
-                'download_speed': entry_info[6],
-                'ratio': entry_info[7],
-                'activity': entry_info[8],
-                'title': entry_info[9]
+                'remaining_time': entry_info[4],
+                'remaining_time_unit': entry_info[5],
+                'upload_speed': entry_info[6],
+                'download_speed': entry_info[7],
+                'ratio': entry_info[8],
+                'title': ''.join(entry_info[9:])
                 })
         print(info_list)
         return info_list
-
+                                                                                                                                    
     def add_torrent(self, magnet):
         cmd = self.ADD_TORRENT + ' ' + magnet
         res = subprocess.check_output(cmd.split())
@@ -41,3 +41,7 @@ class TransmissionWrapper:
         cmd = self.REMOVE_TORRENT + ' ' + target + ' ' + '--remove'
         res = subprocess.check_output(cmd.split())
         return res
+
+    def search(self, query):
+        # TODO
+        return None
