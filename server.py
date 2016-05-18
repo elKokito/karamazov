@@ -28,10 +28,7 @@ def series():
 
 @app.route('/add_torrent', methods=['POST'])
 def add_torrent():
-    print(request.data)
     req = json.loads(request.data.decode())
-    print(req)
-    print('received request to add torrent')
     if 'magnet' in req:
         res = transmisionWrapper.add_torrent(req['magnet'])
         return json.dumps({'response': res.decode()}), 200
@@ -40,7 +37,7 @@ def add_torrent():
 
 @app.route('/remove_torrent', methods=['POST'])
 def remove_torrent():
-    req = request.json
+    req = json.loads(request.data.decode())
     if 'target' in req:
         res = transmisionWrapper.remove_torrent(req['target'])
         return res, 200
@@ -53,10 +50,10 @@ def status():
 
 @app.route('/search', methods=['POST'])
 def search():
-    req = request.json
+    req = json.loads(request.data.decode())
     if 'query' in req:
-        res = transmisionWrapper.search(req['query'])
-        return res, 200
+        res = torrentGetter.search(req['query'])
+        return json.dumps(res), 200
     return 'no query specified', 400
 
 if __name__ == "__main__":

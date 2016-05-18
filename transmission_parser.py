@@ -31,7 +31,7 @@ class TransmissionWrapper:
                 })
         print(info_list)
         return info_list
-                                                                                                                                    
+
     def add_torrent(self, magnet):
         cmd = self.ADD_TORRENT + ' ' + magnet
         res = subprocess.check_output(cmd.split())
@@ -41,7 +41,3 @@ class TransmissionWrapper:
         cmd = self.REMOVE_TORRENT + ' ' + target + ' ' + '--remove'
         res = subprocess.check_output(cmd.split())
         return res
-
-    def search(self, query):
-        # TODO
-        return None
