@@ -51,6 +51,6 @@ class TransmissionWrapper:
         return res
 
     def stop_torrent(self, target):
-        cmd = this.PAUSE_TORRENT(target)
+        cmd = self.PAUSE_TORRENT(target)
         res = subprocess.check_output(cmd.split())
         return res
