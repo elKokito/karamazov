@@ -26,6 +26,14 @@ def movies():
 def series():
     return json.dumps(torrentGetter.get_series())
 
+@app.route('/search', methods=['POST'])
+def search():
+    req = json.loads(request.data.decode())
+    if 'query' in req:
+        res = torrentGetter.search(req['query'])
+        return json.dumps(res), 200
+    return 'no query specified', 400
+
 @app.route('/add_torrent', methods=['POST'])
 def add_torrent():
     req = json.loads(request.data.decode())
@@ -48,13 +56,21 @@ def status():
     res = transmisionWrapper.torrents_status()
     return json.dumps(res), 200
 
-@app.route('/search', methods=['POST'])
-def search():
+@app.route('/pause_torrent', methods=['POST'])
+def pause_torrent():
     req = json.loads(request.data.decode())
-    if 'query' in req:
-        res = torrentGetter.search(req['query'])
-        return json.dumps(res), 200
-    return 'no query specified', 400
+    if 'target' in req:
+        res = transmisionWrapper.stop_torrent(req['target'])
+        return res, 200
+    return 'no target specified', 400
+
+@app.route('/start_torrent', methods=['POST'])
+def start_torrent():
+    req = json.loads(request.data.decode())
+    if 'target' in req:
+        res = transmissionWrapper.start_torrent(req['target'])
+        return res, 200
+    return 'no target specified', 400
 
 if __name__ == "__main__":
     print("app started on port 8888")

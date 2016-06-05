@@ -7,6 +7,9 @@ class TransmissionWrapper:
         self.STATUS_CMD = 'transmission-remote -l'
         self.ADD_TORRENT = 'transmission-remote -a'
         self.REMOVE_TORRENT = 'transmission-remote -t'
+        self.REMOVE_TORRENT = lambda t: 'transmission-remote -t ' + str(t) + ' --remove'
+        self.PAUSE_TORRENT = lambda t: 'transmission-remote -t ' + str(t) + ' --stop'
+        self.START_TORRENT = lambda t: 'transmission-remote -t ' + str(t) + ' --start'
 
     def torrents_status(self):
         raw_info = subprocess.check_output(self.STATUS_CMD.split())
@@ -38,6 +41,16 @@ class TransmissionWrapper:
         return res
 
     def remove_torrent(self, target):
-        cmd = self.REMOVE_TORRENT + ' ' + target + ' ' + '--remove'
+        cmd = self.REMOVE_TORRENT(target)
+        res = subprocess.check_output(cmd.split())
+        return res
+
+    def start_torrent(self, target):
+        cmd = self.START_TORRENT(target)
+        res = subprocess.check_output(cmd.split())
+        return res
+
+    def stop_torrent(self, target):
+        cmd = this.PAUSE_TORRENT(target)
         res = subprocess.check_output(cmd.split())
         return res
