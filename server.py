@@ -68,7 +68,7 @@ def pause_torrent():
 def start_torrent():
     req = json.loads(request.data.decode())
     if 'target' in req:
-        res = transmissionWrapper.start_torrent(req['target'])
+        res = transmisionWrapper.start_torrent(req['target'])
         return res, 200
     return 'no target specified', 400
 
